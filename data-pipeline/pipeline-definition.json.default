@@ -1,0 +1,92 @@
+{
+  "objects" :  [
+    {
+      "id" : "ActionId_jjnNG",
+      "message" : "SES Woomera Execution Completed.",
+      "subject" : "[SES-Woomera] Complete",
+      "name" : "SendEmailOnSuccess",
+      "role" : "DataPipelineDefaultRole",
+      "topicArn" : "${TOPICARN}",
+      "type" : "SnsAlarm"
+    },
+    {
+      "id" : "ActivityId_sJRc5",
+      "schedule" : { "ref" : "DefaultSchedule" },
+      "stdout" : "${STDOUT-S3-PATH}",
+      "scriptUri" : "${LOCATION-OF-SES-WOOMERA.SH}",
+      "name" : "SES-Recovery",
+      "runsOn" : { "ref" : "ResourceId_Xypnl" },
+      "lateAfterTimeout" : "60 Minutes",
+      "onSuccess" : { "ref" : "ActionId_jjnNG" },
+      "onFail" : { "ref" : "ActionId_ocUgv" },
+      "scriptArgument" : [
+          "${LOCATION-OF-SES-WOOMERA.PY}",
+          "${S3-BUCKET}",
+          "${S3-PREFIX-TO-EMAILS}",
+          "${S3-REGION}",
+          "${LOCATION-OF-PROCESSED-EMAILS.JSON}"
+       ],
+      "stderr" : "${STDERR-S3-PATH}",
+      "type" : "ShellCommandActivity",
+      "onLateAction" : { "ref" : "ActionId_PrWY7" }
+    },
+    {
+      "id" : "ActionId_PrWY7",
+      "message" : "Pipeline Considered 'Late' (Possibly even Failed). Check S3 for logs and more information",
+      "subject" : "[SES Woomera] Late",
+      "name" : "SendEmailOnLate",
+      "role" : "DataPipelineDefaultRole",
+      "topicArn" : "${TOPICARN}",
+      "type" : "SnsAlarm"
+    },
+    {
+      "id" : "ResourceId_Xypnl",
+      "region" : "us-east-1",
+      "terminateAfter" : "120 Minutes",
+      "associatePublicIpAddress" : "true",
+      "securityGroupIds" : "${EC2-SECURITY-GROUP}",
+      "subnetId" : "${VPC-SUBNET-ID}",
+      "type" : "Ec2Resource",
+      "resourceRole" : "${IAM-ROLE}",
+      "instanceType" : "t2.micro",
+      "schedule" : { "ref" : "DefaultSchedule" },
+      "imageId" : "${AMI}",
+      "name" : "one t2.micro",
+      "role" : "${IAM-ROLE}",
+      "instanceCount" : "1"
+    },
+    {
+      "id" : "Default",
+      "scheduleType" : "cron",
+      "failureAndRerunMode" : "CASCADE",
+      "schedule" : { "ref" : "DefaultSchedule" },
+      "name" : "Default",
+      "pipelineLogUri" : "${PIPELINE-LOG-URI}",
+      "role" : "DataPipelineDefaultRole",
+      "resourceRole" : "DataPipelineDefaultResourceRole"
+    },
+    {
+      "id" : "ActionId_ocUgv",
+      "message" : "Pipeline Failed. Check S3 for logs and more information",
+      "subject" : "[SES Woomera] Failure",
+      "name" : "SendEmailOnFailure",
+      "role" : "DataPipelineDefaultRole",
+      "topicArn" : "${TOPICARN}",
+      "type" : "SnsAlarm"
+    },
+    {
+      "id" : "DefaultSchedule",
+      "name" : "RunOnce",
+      "occurrences" : "1",
+      "startAt" : "FIRST_ACTIVATION_DATE_TIME",
+      "type" : "Schedule",
+      "period" : "1 Day"
+    }
+  ],
+  "parameters" :  [
+
+  ],
+  "values" : {
+
+  }
+}
