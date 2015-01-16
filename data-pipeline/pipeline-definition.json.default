@@ -24,7 +24,8 @@
           "${S3-BUCKET}",
           "${S3-PREFIX-TO-EMAILS}",
           "${S3-REGION}",
-          "${LOCATION-OF-PROCESSED-EMAILS.JSON}"
+          "${LOCATION-OF-PROCESSED-EMAILS.JSON}",
+          "${ADMINISTRATOR-EMAIL--optional}"
        ],
       "stderr" : "${STDERR-S3-PATH}",
       "type" : "ShellCommandActivity",
