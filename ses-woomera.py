@@ -234,7 +234,7 @@ def send_stats(ses_connection, emails_sent, processed_emails, email_address):
     """
     date = time.strftime("%d-%m-%Y")
     pe_counter = len(processed_emails)
-    body = "Hi,\n\SES Woomera just finished. Here" \
+    body = "Hi,\nSES Woomera just finished. Here" \
            "are some stats from the execution:"\
            "\n\n" \
            "Today's Date: %s\n"\
