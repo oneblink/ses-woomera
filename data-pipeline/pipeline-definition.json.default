@@ -25,6 +25,8 @@
           "${S3-PREFIX-TO-EMAILS}",
           "${S3-REGION}",
           "${LOCATION-OF-PROCESSED-EMAILS.JSON}",
+          "${AWS-ACCESS-KEY}"
+          "${AWS-SECRET-KEY}"
           "${ADMINISTRATOR-EMAIL--optional}"
        ],
       "stderr" : "${STDERR-S3-PATH}",

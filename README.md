@@ -41,7 +41,7 @@ Contains a Data Pipeline Definition (pipeline-definition.json.default) which
 **The Script:**
 
 ```
-usage: ses-woomera.py [-h] --bucket BUCKET --prefix PREFIX --region REGION --processedEmails PROCESSEDEMAILS --adminEmail ADMINEMAIL
+usage: ses-woomera.py [-h] --bucket BUCKET --prefix PREFIX --region REGION --processedEmails PROCESSEDEMAILS --accessKey ACCESSKEY --secretKey SECRETKEY --adminEmail ADMINEMAIL
      
 arguments:
   -h, --help            show this help message and exit
@@ -53,12 +53,16 @@ arguments:
                         AWS region (e.g. "us-west-1")
   --processedEmails PROCESSEDEMAILS, -e PROCESSEDEMAILS
                         S3 prefix to processed emails JSON file (e.g.emails/_PROCESSING/processedEmails.json)
+  --accessKey ACCESSKEY, -k ACCESSKEY
+                        The AWS Access Key in the Access/Secret Keypair
+  --secretKey SECRETKEY, -s SECRETKEY
+                        The AWS Secret Key in the Access/Secret Keypair
   --adminEmail ADMINEMAIL, -a ADMINEMAIL
                         (OPTIONAL) An SES Verified Email Address to send statistics to after completion 
                         (e.g.admin@admin.com)
 ```
 
-- Example: ```python ses-woomera.py -b blinkmobile-emails -p 2015/msg -r us-east-1 -e 2015/processed-emails.json -a email@email.com ```
+- Example: ```python ses-woomera.py -b blinkmobile-emails -p 2015/msg -r us-east-1 -e 2015/processed-emails.json -k AKIABCDEFGHIJKL -s AJFJ4+FGNHSDJT56IWCNZ/AUQKSOIH -a email@email.com ```
 
 **The Pipeline:**
 - Create a new Pipeline in AWS
